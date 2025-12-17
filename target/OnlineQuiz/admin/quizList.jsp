@@ -126,7 +126,7 @@
 </head>
 <body>
 
-<h2>📋 Quiz List</h2>
+<h2> Quiz List</h2>
 
 <%
     int quizCount = offset + 1;
@@ -179,7 +179,7 @@
 
 <div class="pager">
     <% if(currentPage > 1) { %>
-        <a href="quizList.jsp?currentPage=<%=currentPage - 1%>">« Previous</a>
+        <a href="QuizList.jsp?currentPage=<%=currentPage - 1%>">« Previous</a>
     <% } else { %>
         <span>« Previous</span>
     <% } %>
@@ -188,12 +188,12 @@
         if(i == currentPage) { %>
             <span><%=i%></span>
         <% } else { %>
-            <a href="quizList.jsp?currentPage=<%=i%>"><%=i%></a>
+            <a href="QuizList.jsp?currentPage=<%=i%>"><%=i%></a>
         <% }
     } %>
 
     <% if(currentPage < totalPages) { %>
-        <a href="quizList.jsp?currentPage=<%=currentPage + 1%>">Next »</a>
+        <a href="QuizList.jsp?currentPage=<%=currentPage + 1%>">Next »</a>
     <% } else { %>
         <span>Next »</span>
     <% } %>
