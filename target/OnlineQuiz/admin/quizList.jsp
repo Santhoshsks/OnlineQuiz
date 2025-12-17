@@ -1,6 +1,11 @@
 <%@ page import="java.util.List, com.quiz.model.Quiz, com.quiz.model.Question, com.quiz.dao.QuizDAO" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%
+    request.setAttribute("pageContext", "admin");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+
+<%
     int currentPage = 1;
     int recordsPerPage = 5;
     int questionsPerPage = 3;
@@ -28,7 +33,6 @@
         font-family: "Segoe UI", sans-serif;
         background: linear-gradient(135deg, #eef2f3, #d9e2ec);
         margin: 0;
-        padding: 30px;
     }
 
     h2 {

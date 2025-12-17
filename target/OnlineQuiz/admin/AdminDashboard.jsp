@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.quiz.model.Admin" %>
 <%
+    request.setAttribute("pageContext", "index");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+<%
     Admin admin = (Admin) session.getAttribute("admin");
     if (admin == null) {
         response.sendRedirect("AdminLogin.jsp");
@@ -17,7 +21,9 @@
             margin: 0;
             font-family: "Segoe UI", sans-serif;
             background-color: #f9f9f9;
+            padding-top: 70px;
         }
+
 
         .header {
             background-color: #696969;
@@ -30,21 +36,22 @@
         .menu-icon {
             font-size: 26px;
             cursor: pointer;
-            margin-right: 15px;
         }
 
+
         .menu {
-            height: calc(100vh - 55px);
+            height: calc(100vh - 70px);
             width: 0;
             position: fixed;
-            z-index: 1;
-            top: 0;
+            z-index: 1500;
+            top: 70px;
             left: 0;
             background-color: #333;
             overflow-x: hidden;
             transition: 0.3s;
-            padding-top: 60px;
+            padding-top: 20px;
         }
+
 
         .menu a {
             padding: 10px 25px;
@@ -105,11 +112,8 @@
     </style>
 </head>
 <body>
-
-<div class="header">
+<div style="padding: 20px;">
     <span class="menu-icon" onclick="openMenu()">☰</span>
-    <h2>Admin Dashboard</h2>
-    <a class="logout" href="<%=request.getContextPath()%>/LogoutServlet">Logout</a>
 </div>
 
 <div id="sideMenu" class="menu">

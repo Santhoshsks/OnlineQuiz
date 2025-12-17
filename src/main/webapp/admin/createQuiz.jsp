@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, com.quiz.dao.QuizDAO" %>
 <%
+    request.setAttribute("pageContext", "admin");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+
+<%
     QuizDAO dao = new QuizDAO();
     List<String> categories = dao.getAllCategories();
 %>

@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    request.setAttribute("pageContext", "user");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+
 <div class="navbar">
     <div class="brand">Quiz Portal</div>
     <div class="burger" id="burger">&#9776;</div>

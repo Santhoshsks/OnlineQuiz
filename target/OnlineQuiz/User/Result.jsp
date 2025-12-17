@@ -1,4 +1,9 @@
 <%@ page import="java.util.*" %>
+<%
+    request.setAttribute("pageContext", "user");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    request.setAttribute("pageContext", "admin");
+%>
+<jsp:include page="/common/navbar.jsp"/>
+
 <%-- We import the List and Question classes to use them in our Java code --%>
 <%@ page import="java.util.List, com.quiz.model.Question" %>
 
