@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-Created Successfully.
+	<h1 style="align="center>Quiz has been Created Successfully!!</h1>
 </body>
 </html>

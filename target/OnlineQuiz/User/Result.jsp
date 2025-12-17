@@ -3,49 +3,103 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Result</title>
+<title>Quiz Result</title>
 <style>
-h2 { text-align:center; color:#2c3e50; }
-table {
-    width: 80%;
-    margin: 2rem auto;
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f2f5fa;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 40px;
+    color: #004aad;
+  }
+
+  .score-banner {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background-color: #004aad;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  table {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
     border-collapse: collapse;
-    background-color: white;
-}
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
 
-table th, table td {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-}
+  table th, table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
 
-table th {
-    background-color: #2c3e50;
+  table th {
+    background-color: #004aad;
     color: white;
-}
-.correct { background-color: #b0f0b0; }
-.wrong { background-color: #f0b0b0; }
+    font-weight: 600;
+  }
 
-a.action-btn {
-    display:inline-block;
-    margin: 1rem;
-    padding: 0.3rem 0.6rem;
-    border: none;
-    background-color: #2c3e50;
+  table tr.correct { background-color: #b0f0b0; }
+  table tr.wrong { background-color: #f0b0b0; }
+
+  a.action-btn {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 20px;
+    background-color: #004aad;
     color: white;
-    border-radius: 4px;
+    border-radius: 6px;
     text-decoration: none;
-}
+    font-weight: 600;
+    transition: 0.2s;
+  }
 
-a.action-btn:hover { background-color: #34495e; }
+  a.action-btn:hover {
+    background-color: #003580;
+  }
+
+  @media (max-width: 600px) {
+    table th, table td {
+      font-size: 14px;
+      padding: 8px;
+    }
+
+    a.action-btn {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      text-align: center;
+    }
+  }
 </style>
 </head>
 <body>
 <jsp:include page="UserHeader.jsp" />
 
-<h2>Your Score: <%= request.getAttribute("score") %></h2>
+<div class="score-banner">
+    Your Score: <%= request.getAttribute("score") %>
+</div>
 
 <table>
-<tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th></tr>
+<tr>
+    <th>Question</th>
+    <th>Your Answer</th>
+    <th>Correct Answer</th>
+</tr>
 <%
     List<Map<String,String>> review = (List<Map<String,String>>) request.getAttribute("review");
     for (Map<String,String> r : review) {
@@ -60,7 +114,7 @@ a.action-btn:hover { background-color: #34495e; }
 <% } %>
 </table>
 
-<div style="text-align:center;">
+<div style="text-align:center; margin-bottom: 30px;">
     <a class="action-btn" href="User/Leaderboard.jsp">View Leaderboard</a>
     <a class="action-btn" href="User/UserDashboard.jsp">Back to Dashboard</a>
 </div>

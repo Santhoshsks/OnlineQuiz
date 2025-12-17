@@ -126,7 +126,7 @@
 </head>
 <body>
 
-<h2>📋 Quiz List</h2>
+<h2> Quiz List</h2>
 
 <%
     int quizCount = offset + 1;

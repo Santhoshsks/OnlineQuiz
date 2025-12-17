@@ -5,7 +5,7 @@
     <ul class="nav-links" id="nav-links">
         <li><a href="<%= request.getContextPath() %>/User/UserDashboard.jsp">Dashboard</a></li>
         <li><a href="<%= request.getContextPath() %>/User/Leaderboard.jsp">Leaderboard</a></li>
-        <li><a href="<%= request.getContextPath() %>/LogoutServlet">Logout</a></li>
+        <li><a href="<%= request.getContextPath() %>/User/User.jsp">Logout</a></li>
     </ul>
 </div>
 
@@ -21,7 +21,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2c3e50;
+    background-color: #004aad;
     color: white;
     padding: 0.5rem 1rem;
 }

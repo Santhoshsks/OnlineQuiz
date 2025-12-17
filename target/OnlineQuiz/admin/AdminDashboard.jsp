@@ -20,7 +20,7 @@
         }
 
         .header {
-            background-color: #004aad;
+            background-color: #696969;
             color: white;
             padding: 15px 20px;
             display: flex;
@@ -118,8 +118,8 @@
     <div class="menu-item">
         <a href="javascript:void(0)" onclick="toggleSubMenu('quizSub')">Quiz Manager ▾</a>
         <div id="quizSub" class="sub-menu">
-        	<a href="<%=request.getContextPath()%>/admin/quizList.jsp">Quiz List</a>">
-			<a href="<%=request.getContextPath()%>/admin/createQuiz.jsp">Create Quiz</a>
+        	<a href="<%=request.getContextPath()%>/admin/QuizList.jsp">Quiz List</a>
+			<a href="<%=request.getContextPath()%>/admin/createQuiz.jsp">Create New Quiz</a>
         </div>
     </div>
 
@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <a href="leaderboard.jsp">Leaderboard</a></div>
+    <a href="<%=request.getContextPath()%>/User/Leaderboard.jsp">Leaderboard</a></div>
 
 <div class="content">
     <p class="welcome">Welcome, <strong><%= admin.getUsername() %></strong> </p>

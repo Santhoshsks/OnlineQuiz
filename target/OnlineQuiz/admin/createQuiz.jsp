@@ -15,7 +15,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #74b9ff, #a29bfe);
+        background: #FFDFE9;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -70,10 +70,13 @@
 	    border-radius: 6px;
 	    font-size: 14px;
 	    background-color: white;
-	    -webkit-appearance: none; /* remove default dropdown arrow style for WebKit browsers */
-	    -moz-appearance: none;    /* remove default dropdown arrow style for Firefox */
 	    appearance: none;
 	}
+	.footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+        }
     
    
 </style>
@@ -100,6 +103,10 @@
 
             <button type="submit">Create Quiz</button>
         </form>
+        <div class="footer">
+            © 2025 Online Quiz Portal by Srinithi
+        </div>
     </div>
+    
 </body>
 </html>

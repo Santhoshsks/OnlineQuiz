@@ -109,7 +109,7 @@
     <div class="menu-item">
         <a href="javascript:void(0)" onclick="toggleSubMenu('quizSub')">Quiz Manager ▾</a>
         <div id="quizSub" class="sub-menu">
-            <a href="<%=request.getContextPath()%>/admin/CreateQuiz.jsp">Create New Quiz</a>
+            <a href="<%=request.getContextPath()%>/admin/createQuiz.jsp">Create New Quiz</a>
             <a href="<%=request.getContextPath()%>/admin/QuizList.jsp">Quiz List</a>
         </div>
     </div>

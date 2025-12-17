@@ -104,7 +104,7 @@
             <button type="submit">Create Quiz</button>
         </form>
         <div class="footer">
-            © 2025 Online Quiz Portal by Karthikeeyan S(2652307)
+            © 2025 Online Quiz Portal by Srinithi
         </div>
     </div>
     
