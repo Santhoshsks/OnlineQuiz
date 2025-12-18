@@ -4,7 +4,7 @@
     request.setAttribute("pageContext", "admin");
 %>
 <jsp:include page="/common/navbar.jsp"/>
-
+<jsp:include page="/common/adminSidebar.jsp"/>
 <%
     int currentPage = 1;
     int recordsPerPage = 5;
@@ -30,26 +30,29 @@
 <title>All Quizzes</title>
 <style>
     body {
-        font-family: "Segoe UI", sans-serif;
-        background: linear-gradient(135deg, #eef2f3, #d9e2ec);
         margin: 0;
+        padding-top: 70px;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #1f2933, #374151);
+        color: #f9fafb;
     }
+
 
     h2 {
         text-align: center;
-        color: #004aad;
+        color: #e5e7eb;
         margin-bottom: 30px;
-        letter-spacing: 1px;
     }
 
+
     .quiz-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        margin-bottom: 25px;
-        padding: 20px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        margin-bottom: 30px;
+        padding: 22px;
     }
+
 
     
 

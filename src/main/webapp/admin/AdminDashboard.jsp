@@ -1,163 +1,127 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.quiz.model.Admin" %>
+
 <%
-    request.setAttribute("pageContext", "index");
-%>
-<jsp:include page="/common/navbar.jsp"/>
-<%
+    // Identify page context for navbar
+    request.setAttribute("pageContext", "admin");
+
+    // Session check
     Admin admin = (Admin) session.getAttribute("admin");
     if (admin == null) {
         response.sendRedirect("AdminLogin.jsp");
         return;
     }
 %>
+
+<!-- Top Navbar -->
+<jsp:include page="/common/navbar.jsp"/>
+
+<!-- Admin Sidebar -->
+<jsp:include page="/common/adminSidebar.jsp"/>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", sans-serif;
-            background-color: #f9f9f9;
-            padding-top: 70px;
-        }
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
 
+<style>
+    body {
+        margin: 0;
+        padding-top: 70px; /* navbar height */
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #1f2933, #374151);
+        color: #f9fafb;
+    }
 
-        .header {
-            background-color: #696969;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-        }
+    /* Main content */
+    .dashboard-content {
+        padding: 90px 30px 30px 30px;
+        text-align: center;
+        transition: margin-left 0.3s ease;
+    }
 
-        .menu-icon {
-            font-size: 26px;
-            cursor: pointer;
-        }
+    .welcome {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
 
+    .subtitle {
+        font-size: 15px;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 40px;
+    }
 
-        .menu {
-            height: calc(100vh - 70px);
-            width: 0;
-            position: fixed;
-            z-index: 1500;
-            top: 70px;
-            left: 0;
-            background-color: #333;
-            overflow-x: hidden;
-            transition: 0.3s;
-            padding-top: 20px;
-        }
+    /* Info cards */
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
 
+    .info-card {
+        background: rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 30px 20px;
+        box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+        backdrop-filter: blur(8px);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
 
-        .menu a {
-            padding: 10px 25px;
-            text-decoration: none;
-            font-size: 18px;
-            color: white;
-            display: block;
-            transition: 0.2s;
-        }
+    .info-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
 
-        .menu a:hover {
-            background-color: #575757;
-        }
+    .info-card h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        color: #93c5fd;
+    }
 
-        .content {
-		    height: 60px; 
-		    display: flex;
-		    justify-content: center; 
-		    align-items: center;     
-		    text-align: center;
-		}
-
-        .menu .closebtn {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            font-size: 30px;
-            color: white;
-        }
-
-        .welcome {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .logout {
-            position: absolute;
-            right: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .logout:hover {
-            text-decoration: underline;
-        }
-        .sub-menu {
-    display: none; /* hidden by default */padding-left: 20px;
-    background-color: #444;
-}
-.sub-menu a {
-    font-size: 16px;
-    color: #ddd;
-}
-.sub-menu a:hover {
-    background-color: #575757;
-}
-    </style>
+    .info-card p {
+        font-size: 14px;
+        color: #e5e7eb;
+        line-height: 1.6;
+    }
+</style>
 </head>
+
 <body>
-<div style="padding: 20px;">
-    <span class="menu-icon" onclick="openMenu()">☰</span>
-</div>
 
-<div id="sideMenu" class="menu">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+<!-- Dashboard Content -->
+<div class="dashboard-content">
 
-    <div class="menu-item">
-        <a href="javascript:void(0)" onclick="toggleSubMenu('quizSub')">Quiz Manager ▾</a>
-        <div id="quizSub" class="sub-menu">
-        	<a href="<%=request.getContextPath()%>/admin/QuizList.jsp">Quiz List</a>
-			<a href="<%=request.getContextPath()%>/admin/createQuiz.jsp">Create New Quiz</a>
-        </div>
+    <div class="welcome">
+        Welcome, <strong><%= admin.getUsername() %></strong>
     </div>
 
-    <div class="menu-item">
-        <a href="javascript:void(0)" onclick="toggleSubMenu('questionSub')">Question Manager ▾</a>
-        <div id="questionSub" class="sub-menu">
-            <a href="AddQuestion.jsp">Add New Question(s)</a>
-            <a href="<%=request.getContextPath()%>/QuestionListServlet">Question List</a>
-        </div>
+    <div class="subtitle">
+        Manage quizzes, questions and monitor platform performance
     </div>
 
-    <a href="<%=request.getContextPath()%>/User/Leaderboard.jsp">Leaderboard</a></div>
+    <div class="card-container">
 
-<div class="content">
-    <p class="welcome">Welcome, <strong><%= admin.getUsername() %></strong> </p>
+        <div class="info-card">
+            <h3>Quiz Management</h3>
+            <p>Create, update, and organize quizzes with ease.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Question Bank</h3>
+            <p>Maintain questions, answers, and difficulty levels.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>Leaderboard</h3>
+            <p>Track top performers and user progress.</p>
+        </div>
+
+    </div>
 </div>
-
-<script>
-function toggleSubMenu(id) {
-    var subMenu = document.getElementById(id);
-    if (subMenu.style.display === "block") {
-        subMenu.style.display = "none";
-    } else {
-        subMenu.style.display = "block";
-    }
-}
-    function openMenu() {
-        document.getElementById("sideMenu").style.width = "250px";
-    }
-
-    function closeMenu() {
-        document.getElementById("sideMenu").style.width = "0";
-    }
-</script>
 
 </body>
 </html>
