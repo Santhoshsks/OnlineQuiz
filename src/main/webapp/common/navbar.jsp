@@ -72,12 +72,13 @@ body {
 
         <%-- ADMIN LOGGED IN --%>
         <% } else if (adminObj != null) { %>
-            <a href="<%=request.getContextPath()%>/admin/AdminDashboard.jsp">Dashboard</a>
+            <a href="<%=request.getContextPath()%>/admin/dashboard">Dashboard</a>
             <a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a>
 
         <%-- USER LOGGED IN --%>
         <% } else if (userObj != null) { %>
             <a href="<%=request.getContextPath()%>/User/UserDashboard.jsp">Dashboard</a>
+            <a href="<%=request.getContextPath()%>/User/Leaderboard.jsp">Leaderboard</a>
             <a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a>
         <% } %>
 

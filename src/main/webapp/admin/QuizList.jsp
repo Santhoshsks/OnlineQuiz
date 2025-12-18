@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%
     request.setAttribute("pageContext", "admin");
+    request.setAttribute("activeMenu", "quiz");
 %>
 <jsp:include page="/common/navbar.jsp"/>
 <jsp:include page="/common/adminSidebar.jsp"/>
@@ -54,8 +55,6 @@
     }
 
 
-    
-
     .quiz-header {
         display: flex;
         justify-content: space-between;
@@ -81,48 +80,69 @@
         margin-top: 15px;
         display: none;
         animation: fadeIn 0.3s ease-in-out;
+        padding: 10px 0;
     }
 
     table {
         width: 100%;
         border-collapse: collapse;
-        background: #f8f9fa;
+        background: rgba(31, 41, 55, 0.9);
         border-radius: 10px;
         overflow: hidden;
+        color: #f9fafb;
     }
 
     th, td {
-        border: 1px solid #dcdde1;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         padding: 10px;
         text-align: left;
     }
 
     th {
-        background-color: #004aad;
-        color: white;
+        background-color: #1f2933; /* darker header */
+        color: #f9fafb;
         font-weight: 500;
     }
 
     tr:nth-child(even) {
-        background: #f1f2f6;
+       background-color: rgba(55, 65, 81, 0.8); /* alternate row dark */
+    }
+
+    tr:nth-child(odd) {
+       background-color: rgba(31, 41, 55, 0.8);
+    }
+
+    tr:hover {
+        background-color: rgba(59, 130, 246, 0.3);
     }
 
     .pager, .questionPager {
         text-align: center;
-        margin-top: 15px;
+        margin: 30px 0;
+        padding: 15px 0;
+        background: rgba(31, 41, 55, 0.8);
+        border-radius: 12px;
     }
 
-    .pager a, .questionPager a {
+    .pager a, .questionPager a,
+    .pager span, .questionPager span {
         text-decoration: none;
-        color: #004aad;
         font-weight: bold;
-        margin: 0 5px;
+        margin: 0 12px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        color: #ffffff;
     }
 
     .pager span, .questionPager span {
-        color: #d63031;
-        font-weight: bold;
-        margin: 0 5px;
+        background-color: #3b82f6;
+        color: #fff;
+    }
+
+    .pager a:hover, .questionPager a:hover {
+        background-color: #2563eb;
+        color: #fff;
     }
 
     @keyframes fadeIn {

@@ -1,13 +1,15 @@
 package com.quiz.model;
 
 public class Question {
-    private String category;// assuming you'll associate questions with quizzes
+    private int id;
+    private String category;
     private String questionText;
     private String optionA;
     private String optionB;
     private String optionC;
     private String optionD;
     private String correctOption;
+
 
     // Constructors
     public Question() {}
@@ -23,6 +25,9 @@ public class Question {
     }
 
     // Getters and Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
     

@@ -174,7 +174,7 @@
     <% } %>
 
     <div class="footer">
-        © 2025 Online Quiz Portal by Srinithi
+       Online Quiz Portal by Srinithi
     </div>
 
 </div>

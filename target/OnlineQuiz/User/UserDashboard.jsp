@@ -1,7 +1,10 @@
 <%@ page import="java.sql.*, com.quiz.util.*" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%
     request.setAttribute("pageContext", "user");
 %>
+
 <jsp:include page="/common/navbar.jsp"/>
 
 <!DOCTYPE html>
@@ -9,110 +12,151 @@
 <head>
 <meta charset="UTF-8">
 <title>User Dashboard</title>
+
 <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f2f5fa;
+body {
     margin: 0;
-    padding: 0;
-  }
+    padding-top: 80px;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #1f2933, #374151);
+    color: #f9fafb;
+}
 
-  h2 {
+/* Page Title */
+h2 {
     text-align: center;
-    margin-top: 40px;
-    color: #004aad;
-  }
+    margin-bottom: 35px;
+    color: #e5e7eb;
+}
 
-  table {
-    width: 90%;
-    max-width: 700px;
-    margin: 2rem auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
+/* Card Container */
+.table-wrapper {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    background: rgba(31,41,55,0.92);
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
+}
 
-  table th, table td {
-    padding: 12px 15px;
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px 16px;
     text-align: left;
-  }
+}
 
-  table th {
-    background-color: #004aad;
-    color: white;
-    font-weight: 600;
+th {
+    background: rgba(17,24,39,0.95);
+    color: #e5e7eb;
+    font-size: 14px;
     text-transform: uppercase;
-    font-size: 14px;
-  }
+}
 
-  table tr:nth-child(even) {
-    background-color: #f8f9fb;
-  }
+tr:nth-child(even) {
+    background: rgba(55,65,81,0.85);
+}
 
-  table tr:hover {
-    background-color: #e3f2fd;
-  }
+tr:nth-child(odd) {
+    background: rgba(31,41,55,0.85);
+}
 
-  td {
-    font-size: 14px;
-    color: #333;
-  }
+tr:hover {
+    background: rgba(59,130,246,0.25);
+}
 
-  .action-btn {
+/* Button */
+.action-btn {
     display: inline-block;
-    padding: 8px 16px;
-    background-color: #004aad;
-    color: white;
-    border-radius: 6px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
     text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s ease;
-  }
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-  .action-btn:hover {
-    background-color: #003580;
-  }
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+}
 
-  @media (max-width: 600px) {
-    table th, table td {
-      padding: 10px;
-      font-size: 13px;
+/* Empty / Error */
+.empty-msg {
+    text-align: center;
+    padding: 25px;
+    color: #f87171;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    th, td {
+        padding: 10px;
+        font-size: 13px;
     }
-
-    .action-btn {
-      padding: 6px 12px;
-    }
-  }
+}
 </style>
 </head>
+
 <body>
-<jsp:include page="UserHeader.jsp" />
 
 <h2>Welcome, <%= session.getAttribute("username") %></h2>
 
+<div class="table-wrapper">
 <table>
-<tr><th>ID</th><th>Quiz Name</th><th>Action</th></tr>
+    <tr>
+        <th>ID</th>
+        <th>Quiz Name</th>
+        <th>Action</th>
+    </tr>
+
 <%
     try (Connection conn = DBConnector.getConnection()) {
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM quiz");
         ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
+        boolean hasData = false;
+
+        while (rs.next()) {
+            hasData = true;
 %>
-<tr>
-    <td><%= rs.getInt("id") %></td>
-    <td><%= rs.getString("name") %></td>
-    <td>
-        <a class="action-btn" href="<%=request.getContextPath() %>/attemptQuiz?quizId=<%= rs.getInt("id") %>">Attempt Quiz</a>
-    </td>
-</tr>
-<% } } catch(Exception e){ %>
-<tr>
-    <td colspan="3" style="text-align:center; color:red;">Error: <%= e.getMessage() %></td>
-</tr>
-<% } %>
+    <tr>
+        <td><%= rs.getInt("id") %></td>
+        <td><%= rs.getString("name") %></td>
+        <td>
+            <a class="action-btn"
+               href="<%=request.getContextPath()%>/attemptQuiz?quizId=<%= rs.getInt("id") %>">
+                Attempt Quiz
+            </a>
+        </td>
+    </tr>
+<%
+        }
+
+        if (!hasData) {
+%>
+    <tr>
+        <td colspan="3" class="empty-msg">No quizzes available</td>
+    </tr>
+<%
+        }
+    } catch(Exception e) {
+%>
+    <tr>
+        <td colspan="3" class="empty-msg">
+            Error loading quizzes
+        </td>
+    </tr>
+<%
+    }
+%>
 </table>
+</div>
 
 </body>
 </html>

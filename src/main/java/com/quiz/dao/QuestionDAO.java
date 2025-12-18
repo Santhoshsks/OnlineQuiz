@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionDAO {
-	
+
 
     public boolean addQuestion(Question question) {
         boolean status = false;
@@ -35,16 +35,32 @@ public class QuestionDAO {
 
         return status;
     }
-    public List<Question> getAllQuestions() {
-        List<Question> questions = new ArrayList<>();
 
-        try (Connection con = DBConnector.getConnection()) {
-            String sql = "SELECT * FROM question";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+    public int getTotalQuestionCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM question";
+        try (Connection conn = DBConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public List<Question> getAllQuestions() throws Exception {
+        List<Question> list = new ArrayList<>();
+        String sql = "SELECT id, category, questionText, optionA, optionB, optionC, optionD, correctOption FROM question ORDER BY id DESC";
+        try (Connection conn = DBConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Question q = new Question();
+                q.setId(rs.getInt("id"));
                 q.setCategory(rs.getString("category"));
                 q.setQuestionText(rs.getString("questionText"));
                 q.setOptionA(rs.getString("optionA"));
@@ -52,14 +68,12 @@ public class QuestionDAO {
                 q.setOptionC(rs.getString("optionC"));
                 q.setOptionD(rs.getString("optionD"));
                 q.setCorrectOption(rs.getString("correctOption"));
-                questions.add(q);
+
+                list.add(q);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-        return questions;
+        return list;
     }
+
 
 }

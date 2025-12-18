@@ -13,3 +13,4 @@ com\quiz\controller\UserLoginServlet.class
 com\quiz\dao\AdminDao.class
 com\quiz\model\Question.class
 com\quiz\dao\QuestionDAO.class
+com\quiz\controller\AdminDashboardServlet.class

@@ -17,52 +17,74 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/user")
 public class UserLoginServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2621352181729361033L;
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    private static final long serialVersionUID = 2621352181729361033L;
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String action = request.getParameter("action"); // "Register" or "Login"
+        String action   = request.getParameter("action"); // Register | Login
 
         try (Connection conn = DBConnector.getConnection()) {
-            if (action.equals("Register")) {
-                // Check if user exists
-                PreparedStatement checkStmt = conn.prepareStatement("SELECT * FROM user WHERE username=?");
+
+            /* ================= REGISTER ================= */
+            if ("Register".equals(action)) {
+
+                PreparedStatement checkStmt =
+                        conn.prepareStatement("SELECT id FROM user WHERE username=?");
                 checkStmt.setString(1, username);
                 ResultSet rs = checkStmt.executeQuery();
 
                 if (rs.next()) {
-                    // already exists → redirect to login page
-                    response.sendRedirect("/User/User.jsp?msg=User already exists, please login.");
-                } else {
-                    // register user
-                    PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO user(username,password) VALUES(?,?)");
-                    insertStmt.setString(1, username);
-                    insertStmt.setString(2, password);
-                    insertStmt.executeUpdate();
-
-                    response.sendRedirect(request.getContextPath() + "/User/User.jsp?msg=Registered successfully! Please login now.");
+                    response.sendRedirect(
+                            request.getContextPath() +
+                                    "/User/User.jsp?msg=User already exists, please login"
+                    );
+                    return;
                 }
 
-            } else if (action.equals("Login")) {
-                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE username=? AND password=?");
+                PreparedStatement insertStmt =
+                        conn.prepareStatement("INSERT INTO user(username,password) VALUES(?,?)");
+                insertStmt.setString(1, username);
+                insertStmt.setString(2, password);
+                insertStmt.executeUpdate();
+
+                response.sendRedirect(
+                        request.getContextPath() +
+                                "/User/User.jsp?msg=Registered successfully! Please login"
+                );
+                return;
+            }
+
+            /* ================= LOGIN ================= */
+            if ("Login".equals(action)) {
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(
+                                "SELECT id, username FROM user WHERE username=? AND password=?"
+                        );
                 stmt.setString(1, username);
                 stmt.setString(2, password);
+
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                    // login success
-                    HttpSession session = request.getSession();
-                    session.setAttribute("username", username);
-                    response.sendRedirect(request.getContextPath() +"/User/UserDashboard.jsp");
+                    HttpSession session = request.getSession(true);
+
+                    /* ✅ IMPORTANT SESSION ATTRIBUTES */
+                    session.setAttribute("user", rs.getInt("id")); // role marker
+                    session.setAttribute("username", rs.getString("username"));
+
+                    response.sendRedirect(
+                            request.getContextPath() + "/User/UserDashboard.jsp"
+                    );
                 } else {
-                    response.sendRedirect(request.getContextPath() +"/User/User.jsp?msg=Invalid username or password");
+                    response.sendRedirect(
+                            request.getContextPath() +
+                                    "/User/User.jsp?msg=Invalid username or password"
+                    );
                 }
             }
 

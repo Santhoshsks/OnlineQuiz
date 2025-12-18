@@ -14,18 +14,26 @@ import java.util.List;
 
 @WebServlet("/QuestionListServlet")
 public class QuestionListServlet extends HttpServlet {
-    
+
+    private static final long serialVersionUID = 1L;
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        // 1. Get the data from the DAO
+
+        // 1. Initialize DAO
         QuestionDAO dao = new QuestionDAO();
-        List<Question> questionList = dao.getAllQuestions();
-        
-        // 2. Set the data as an attribute for the JSP
+
+        // 2. Fetch all questions from DB
+        List<Question> questionList = null;
+        try {
+            questionList = dao.getAllQuestions();
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error fetching questions: " + e.getMessage());
+        }
+
+        // 3. Set the questions in request scope
         request.setAttribute("questionList", questionList);
-        
-        // 3. Forward the request to the JSP view
-        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/QuestionList.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("admin/QuestionList.jsp").forward(request, response);
+
     }
 }

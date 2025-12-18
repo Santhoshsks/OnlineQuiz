@@ -22,7 +22,7 @@ public class AdminLoginServlet extends HttpServlet {
         if (admin != null) {
             HttpSession session = req.getSession();
             session.setAttribute("admin", admin);
-            resp.sendRedirect(req.getContextPath() + "/admin/AdminDashboard.jsp");
+            resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
         } else {
             req.setAttribute("error", "Invalid credentials!");
 //            RequestDispatcher rd = req.getRequestDispatcher("Admin/AdminLogin.jsp");

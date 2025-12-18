@@ -3,115 +3,142 @@
 <%@ page import="java.util.List, com.quiz.dao.QuizDAO" %>
 <%
     request.setAttribute("pageContext", "admin");
+    request.setAttribute("activeMenu", "quiz");
 %>
 <jsp:include page="/common/navbar.jsp"/>
+<jsp:include page="/common/adminSidebar.jsp"/>
 
 <%
     QuizDAO dao = new QuizDAO();
     List<String> categories = dao.getAllCategories();
 %>
-    
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<title>Create Quiz</title>
+
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background: #FFDFE9;
-        height: 100vh;
+        margin: 0;
+        padding-top: 70px;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #1f2933, #374151);
+        color: #f9fafb;
+        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
     }
+
     .container {
-        background-color: white;
-        padding: 30px 40px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        width: 350px;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 40px 35px;
+        border-radius: 20px;
+        box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+        width: 380px;
         text-align: center;
+        animation: fadeIn 0.5s ease-in-out;
     }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(15px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
     h2 {
-        color: #2d3436;
-        margin-bottom: 20px;
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: #f9fafb;
     }
+
     label {
         display: block;
-        margin-top: 10px;
-        font-weight: bold;
         text-align: left;
-        color: #2d3436;
+        font-weight: 600;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: rgba(255,255,255,0.85);
     }
-    input[type="text"] {
+
+    input[type="text"], select {
         width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #b2bec3;
-        border-radius: 6px;
-        font-size: 14px;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.1);
+        color: #f9fafb;
+        font-size: 15px;
+        outline: none;
+        transition: 0.3s ease;
+        appearance: none;
     }
+
+    input[type="text"]:focus, select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+    }
+
     button {
-        margin-top: 20px;
+        margin-top: 25px;
         width: 100%;
-        padding: 10px;
-        background-color: #0984e3;
-        color: white;
-        border: none;
-        border-radius: 6px;
+        padding: 12px;
         font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border: none;
+        border-radius: 12px;
         cursor: pointer;
+        box-shadow: 0 6px 18px rgba(59,130,246,0.5);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+
     button:hover {
-        background-color: #74b9ff;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(59,130,246,0.7);
     }
-    select {
-	    width: 100%;
-	    padding: 8px;
-	    margin-top: 5px;
-	    border: 1px solid #b2bec3;
-	    border-radius: 6px;
-	    font-size: 14px;
-	    background-color: white;
-	    appearance: none;
-	}
-	.footer {
-            margin-top: 20px;
-            font-size: 13px;
-            color: #777;
-        }
-    
-   
+
+    select option {
+        color: #000;
+    }
+
+    .footer {
+        margin-top: 20px;
+        font-size: 13px;
+        color: rgba(255,255,255,0.5);
+    }
+
 </style>
 </head>
 <body>
     <div class="container">
         <h2>Create New Quiz</h2>
         <form action="../CreateQuizServlet" method="post">
-        
             <label for="title">Quiz Title</label>
             <input type="text" id="title" name="title" placeholder="Enter quiz title" required>
-            
-			<label for="category">Category</label>
-			<select id="category" name="category" required>
-			    <option value="" disabled selected>--- Select Category ---</option>
-			    <%
-			        for(String cat : categories) {
-			    %>
-			        <option value="<%=cat%>"><%=cat%></option>
-			    <%
-			        }
-			    %>
-			</select>
+
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="" disabled selected>--- Select Category ---</option>
+                <%
+                    for(String cat : categories) {
+                %>
+                    <option value="<%=cat%>"><%=cat%></option>
+                <%
+                    }
+                %>
+            </select>
 
             <button type="submit">Create Quiz</button>
         </form>
         <div class="footer">
-            © 2025 Online Quiz Portal by Srinithi
+            Online Quiz Portal by Srinithi
         </div>
     </div>
-    
 </body>
 </html>

@@ -2,10 +2,9 @@
 <%@ page import="com.quiz.model.Admin" %>
 
 <%
-    // Identify page context for navbar
     request.setAttribute("pageContext", "admin");
+    request.setAttribute("activeMenu", "dashboard");
 
-    // Session check
     Admin admin = (Admin) session.getAttribute("admin");
     if (admin == null) {
         response.sendRedirect("AdminLogin.jsp");
@@ -13,10 +12,7 @@
     }
 %>
 
-<!-- Top Navbar -->
 <jsp:include page="/common/navbar.jsp"/>
-
-<!-- Admin Sidebar -->
 <jsp:include page="/common/adminSidebar.jsp"/>
 
 <!DOCTYPE html>
@@ -28,71 +24,72 @@
 <style>
     body {
         margin: 0;
-        padding-top: 70px; /* navbar height */
+        padding-top: 70px;
         font-family: "Inter", "Segoe UI", sans-serif;
         background: linear-gradient(135deg, #1f2933, #374151);
         color: #f9fafb;
     }
 
-    /* Main content */
+    /* Main content wrapper */
     .dashboard-content {
-        padding: 90px 30px 30px 30px;
+        padding: 40px 30px;
         text-align: center;
         transition: margin-left 0.3s ease;
     }
 
     .welcome {
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
     }
 
     .subtitle {
-        font-size: 15px;
+        font-size: 14px;
         color: rgba(255,255,255,0.7);
         margin-bottom: 40px;
     }
 
-    /* Info cards */
+    /* Stats cards */
     .card-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 25px;
         max-width: 900px;
-        margin: 0 auto;
+        margin: auto;
     }
 
     .info-card {
         background: rgba(255,255,255,0.08);
         border-radius: 16px;
         padding: 30px 20px;
-        box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        backdrop-filter: blur(14px);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .info-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        transform: translateY(-8px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.5);
     }
 
     .info-card h3 {
-        font-size: 18px;
-        margin-bottom: 12px;
-        color: #93c5fd;
+        font-size: 15px;
+        color: rgba(255,255,255,0.75);
+        margin-bottom: 14px;
+        letter-spacing: 0.5px;
     }
 
     .info-card p {
-        font-size: 14px;
-        color: #e5e7eb;
-        line-height: 1.6;
+        font-size: 34px;
+        font-weight: 700;
+        color: #3b82f6;
+        margin: 0;
     }
 </style>
 </head>
 
 <body>
 
-<!-- Dashboard Content -->
 <div class="dashboard-content">
 
     <div class="welcome">
@@ -100,27 +97,29 @@
     </div>
 
     <div class="subtitle">
-        Manage quizzes, questions and monitor platform performance
+        Manage quizzes, questions and monitor platform activity
     </div>
 
     <div class="card-container">
 
         <div class="info-card">
-            <h3>Quiz Management</h3>
-            <p>Create, update, and organize quizzes with ease.</p>
+            <h3>Total Quizzes</h3>
+            <p><%= request.getAttribute("totalQuizzes") != null ? request.getAttribute("totalQuizzes") : "—" %></p>
         </div>
 
         <div class="info-card">
-            <h3>Question Bank</h3>
-            <p>Maintain questions, answers, and difficulty levels.</p>
+            <h3>Total Questions</h3>
+            <p><%= request.getAttribute("totalQuestions") != null ? request.getAttribute("totalQuestions") : "—" %></p>
         </div>
 
         <div class="info-card">
-            <h3>Leaderboard</h3>
-            <p>Track top performers and user progress.</p>
+            <h3>Total Users</h3>
+            <p><%= request.getAttribute("totalUsers") != null ? request.getAttribute("totalUsers") : "—" %></p>
         </div>
 
     </div>
+
+
 </div>
 
 </body>

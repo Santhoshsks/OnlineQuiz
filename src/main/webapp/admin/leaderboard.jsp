@@ -1,8 +1,10 @@
 <%@ page import="java.sql.*, com.quiz.util.*" %>
 <%
     request.setAttribute("pageContext", "admin");
+    request.setAttribute("activeMenu", "leaderboard");
 %>
 <jsp:include page="/common/navbar.jsp"/>
+<jsp:include page="/common/adminSidebar.jsp"/>
 
 <!DOCTYPE html>
 <html>
@@ -11,80 +13,81 @@
 <title>Leaderboard</title>
 <style>
   body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f2f5fa;
     margin: 0;
-    padding: 0;
+    padding-top: 70px;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #1f2933, #374151);
+    color: #f9fafb;
   }
 
   h2 {
     text-align: center;
-    margin-top: 40px;
-    color: #004aad;
+    font-size: 28px;
+    margin: 30px 0 20px 0;
+    color: #3b82f6;
+  }
+
+  .table-container {
+    max-width: 900px;
+    margin: 0 auto 50px auto;
+    overflow-x: auto;
+    padding: 0 15px;
   }
 
   table {
-    width: 90%;
-    max-width: 700px;
-    margin: 2rem auto;
+    width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
   }
 
-  table th, table td {
-    padding: 12px 15px;
+  th, td {
+    padding: 14px 16px;
     text-align: left;
   }
 
-  table th {
-    background-color: #004aad;
-    color: white;
+  th {
+    background: rgba(59,130,246,0.85);
+    color: #fff;
     font-weight: 600;
     text-transform: uppercase;
     font-size: 14px;
   }
 
-  table tr:nth-child(even) {
-    background-color: #f8f9fb;
+  tr:nth-child(even) {
+    background: rgba(255,255,255,0.03);
   }
 
-  table tr:hover {
-    background-color: #e3f2fd;
+  tr:hover {
+    background: rgba(59,130,246,0.1);
+    transition: 0.3s;
   }
 
   td {
-    font-size: 14px;
-    color: #333;
+    font-size: 15px;
+    color: #e5e7eb;
   }
 
-  .action-btn {
-    display: inline-block;
-    margin: 20px auto 40px;
-    padding: 10px 20px;
-    background-color: #004aad;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s ease;
+  .rank {
+    font-weight: 700;
+    color: #3b82f6;
   }
 
-  .action-btn:hover {
-    background-color: #003580;
-  }
-
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     table th, table td {
       padding: 10px;
       font-size: 13px;
     }
+  }
 
-    .action-btn {
-      padding: 8px 16px;
-    }
+  .footer {
+    text-align: center;
+    margin-bottom: 30px;
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
   }
 </style>
 </head>
@@ -92,6 +95,7 @@
 
 <h2>Leaderboard</h2>
 
+<div class="table-container">
 <table>
   <tr>
     <th>Rank</th>
@@ -112,7 +116,7 @@ try (Connection conn = DBConnector.getConnection()) {
     while (rs.next()) {
 %>
   <tr>
-    <td><%= rank++ %></td>
+    <td class="rank"><%= rank++ %></td>
     <td><%= rs.getString("username") %></td>
     <td><%= rs.getString("name") %></td>
     <td><%= rs.getInt("score") %></td>
@@ -122,12 +126,15 @@ try (Connection conn = DBConnector.getConnection()) {
 } catch(Exception e){
 %>
   <tr>
-    <td colspan="4" style="text-align:center; color:red;">Error: <%= e.getMessage() %></td>
+    <td colspan="4" style="text-align:center; color:#f87171;">Error: <%= e.getMessage() %></td>
   </tr>
 <% } %>
 </table>
+</div>
 
-
+<div class="footer">
+    Online Quiz Portal by Srinithi
+</div>
 
 </body>
 </html>
