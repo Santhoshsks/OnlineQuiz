@@ -1,5 +1,6 @@
 com\quiz\controller\AdminLoginServlet.class
 com\quiz\controller\AttemptQuizServlet.class
+com\quiz\controller\QuizListServlet.class
 com\quiz\controller\QuestionListServlet.class
 com\quiz\controller\SubmitQuizServlet.class
 com\quiz\dao\QuizDAO.class
