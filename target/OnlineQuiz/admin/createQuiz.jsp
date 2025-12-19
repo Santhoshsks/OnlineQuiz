@@ -137,7 +137,7 @@
             <button type="submit">Create Quiz</button>
         </form>
         <div class="footer">
-            Online Quiz Portal by Srinithi
+            My Quiz Portal
         </div>
     </div>
 </body>

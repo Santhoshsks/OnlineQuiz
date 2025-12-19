@@ -12,5 +12,6 @@ com\quiz\model\Quiz.class
 com\quiz\controller\UserLoginServlet.class
 com\quiz\dao\AdminDao.class
 com\quiz\model\Question.class
+com\quiz\controller\ThemeToggleServlet.class
 com\quiz\dao\QuestionDAO.class
 com\quiz\controller\AdminDashboardServlet.class

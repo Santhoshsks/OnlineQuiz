@@ -6,6 +6,7 @@ C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\CreateQuiz
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\LogoutServlet.java
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\QuestionListServlet.java
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\SubmitQuizServlet.java
+C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\ThemeToggleServlet.java
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\controller\UserLoginServlet.java
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\dao\AdminDao.java
 C:\Users\admin\Downloads\OnlineQuiz\src\main\java\com\quiz\dao\QuestionDAO.java

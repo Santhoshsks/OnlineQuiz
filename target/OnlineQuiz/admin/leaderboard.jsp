@@ -133,7 +133,7 @@ try (Connection conn = DBConnector.getConnection()) {
 </div>
 
 <div class="footer">
-    Online Quiz Portal by Srinithi
+    My Quiz Portal
 </div>
 
 </body>
