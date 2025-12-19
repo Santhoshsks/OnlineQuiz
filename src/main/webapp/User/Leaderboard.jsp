@@ -1,8 +1,9 @@
 <%@ page import="java.sql.*, com.quiz.util.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-
 <%
     request.setAttribute("pageContext", "user");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
 
 <jsp:include page="/common/navbar.jsp"/>
@@ -15,52 +16,72 @@
 
 <style>
 /* =========================
+   THEME VARIABLES
+========================= */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card-bg: #ffffff;
+    --header-bg: #e0e7ff;
+    --row-hover: rgba(59,130,246,0.18);
+    --rank-gold: #facc15;
+    --rank-silver: #cbd5e1;
+    --rank-bronze: #d97706;
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card-bg: rgba(255,255,255,0.08);
+    --header-bg: rgba(59,130,246,0.85);
+    --row-hover: rgba(59,130,246,0.18);
+    --rank-gold: #facc15;
+    --rank-silver: #cbd5e1;
+    --rank-bronze: #d97706;
+}
+
+/* =========================
    PAGE
 ========================= */
 body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
 }
 
-/* =========================
-   TITLE
-========================= */
+/* Page title */
 h2 {
     text-align: center;
     margin: 30px 0;
     font-size: 26px;
-    color: #93c5fd;
+    color: #3b82f6;
 }
 
-/* =========================
-   TABLE CONTAINER
-========================= */
+/* Table container */
 .table-container {
     max-width: 900px;
     margin: 0 auto 60px;
-    background: rgba(17, 24, 39, 0.9);
+    background: var(--card-bg);
     border-radius: 14px;
-    padding: 10px;
+    padding: 12px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     overflow-x: auto;
 }
 
-/* =========================
-   TABLE
-========================= */
+/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-/* Headers */
+/* Table headers */
 table th {
-    background-color: #111827;
-    color: #93c5fd;
+    background: var(--header-bg);
+    color: var(--text);
     text-transform: uppercase;
     font-size: 13px;
     font-weight: 600;
@@ -69,7 +90,7 @@ table th {
     text-align: left;
 }
 
-/* Cells */
+/* Table cells */
 table td {
     padding: 14px;
     font-size: 15px;
@@ -97,35 +118,30 @@ table td:nth-child(3) {
 
 /* Row hover */
 table tbody tr:hover {
-    background-color: rgba(59, 130, 246, 0.18);
+    background-color: var(--row-hover);
+    transition: 0.3s;
 }
 
-/* =========================
-   RANK COLORS
-========================= */
+/* Rank colors */
 table tbody tr:nth-child(1) td {
-    color: #facc15; /* Gold */
+    color: var(--rank-gold);
     font-weight: 700;
 }
 table tbody tr:nth-child(2) td {
-    color: #cbd5e1; /* Silver */
+    color: var(--rank-silver);
 }
 table tbody tr:nth-child(3) td {
-    color: #d97706; /* Bronze */
+    color: var(--rank-bronze);
 }
 
-/* =========================
-   EMPTY STATE
-========================= */
+/* Empty state */
 .empty {
     text-align: center;
     padding: 20px;
     color: #9ca3af;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* Responsive */
 @media (max-width: 600px) {
     h2 {
         font-size: 22px;
@@ -139,9 +155,9 @@ table tbody tr:nth-child(3) td {
 </style>
 </head>
 
-<body>
+<body data-theme="<%= theme %>">
 
-<h2> Leaderboard</h2>
+<h2>Leaderboard</h2>
 
 <div class="table-container">
 <table>

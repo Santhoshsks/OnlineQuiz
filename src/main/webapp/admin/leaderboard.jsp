@@ -1,8 +1,14 @@
 <%@ page import="java.sql.*, com.quiz.util.*" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
     request.setAttribute("pageContext", "admin");
     request.setAttribute("activeMenu", "leaderboard");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
+
+<body data-theme="<%= theme %>">
+
 <jsp:include page="/common/navbar.jsp"/>
 <jsp:include page="/common/adminSidebar.jsp"/>
 
@@ -12,83 +18,110 @@
 <meta charset="UTF-8">
 <title>Leaderboard</title>
 <style>
-  body {
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --header-bg: #3b82f6;
+    --row-even: #f9fafb;
+    --row-odd: #ffffff;
+    --accent-hover: rgba(59,130,246,0.1);
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --header-bg: #3b82f6;
+    --row-even: rgba(55,65,81,0.8);
+    --row-odd: rgba(31,41,55,0.8);
+    --accent-hover: rgba(59,130,246,0.3);
+}
+
+body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
-  }
+    background: var(--bg);
+    color: var(--text);
+}
 
-  h2 {
+/* Heading */
+h2 {
     text-align: center;
     font-size: 28px;
     margin: 30px 0 20px 0;
-    color: #3b82f6;
-  }
+    color: var(--header-bg);
+}
 
-  .table-container {
+/* Table container */
+.table-container {
     max-width: 900px;
     margin: 0 auto 50px auto;
     overflow-x: auto;
     padding: 0 15px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    overflow: hidden;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     backdrop-filter: blur(12px);
-  }
+}
 
-  th, td {
-    padding: 14px 16px;
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 10px;
     text-align: left;
-  }
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 
-  th {
-    background: rgba(59,130,246,0.85);
+th {
+    background: var(--header-bg);
     color: #fff;
     font-weight: 600;
     text-transform: uppercase;
-    font-size: 14px;
-  }
+    position: sticky;
+    top: 0;
+}
 
-  tr:nth-child(even) {
-    background: rgba(255,255,255,0.03);
-  }
+tr:nth-child(even) {
+    background: var(--row-even);
+}
 
-  tr:hover {
-    background: rgba(59,130,246,0.1);
-    transition: 0.3s;
-  }
+tr:nth-child(odd) {
+    background: var(--row-odd);
+}
 
-  td {
-    font-size: 15px;
-    color: #e5e7eb;
-  }
+tr:hover {
+    background-color: var(--accent-hover);
+}
 
-  .rank {
+/* Rank styling */
+.rank {
     font-weight: 700;
-    color: #3b82f6;
-  }
+    color: var(--header-bg);
+}
 
-  @media (max-width: 768px) {
-    table th, table td {
-      padding: 10px;
-      font-size: 13px;
-    }
-  }
-
-  .footer {
+/* Footer */
+.footer {
     text-align: center;
     margin-bottom: 30px;
     color: rgba(255,255,255,0.6);
     font-size: 13px;
-  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    th, td {
+        padding: 8px 6px;
+        font-size: 13px;
+    }
+}
 </style>
 </head>
 <body>

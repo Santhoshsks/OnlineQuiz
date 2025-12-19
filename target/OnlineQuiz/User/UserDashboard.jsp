@@ -1,9 +1,12 @@
 <%@ page import="java.sql.*, com.quiz.util.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-
 <%
     request.setAttribute("pageContext", "user");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
+
+<body data-theme="<%= theme %>">
 
 <jsp:include page="/common/navbar.jsp"/>
 
@@ -14,32 +17,55 @@
 <title>User Dashboard</title>
 
 <style>
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --header-bg: #3b82f6;
+    --row-even: #f9fafb;
+    --row-odd: #ffffff;
+    --accent-hover: rgba(59,130,246,0.1);
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --header-bg: #3b82f6;
+    --row-even: rgba(55,65,81,0.8);
+    --row-odd: rgba(31,41,55,0.8);
+    --accent-hover: rgba(59,130,246,0.3);
+}
+
 body {
     margin: 0;
     padding-top: 80px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
+    background: var(--bg);
+    color: var(--text);
 }
 
-/* Page Title */
+/* Page title */
 h2 {
     text-align: center;
     margin-bottom: 35px;
-    color: #e5e7eb;
+    color: var(--text);
 }
 
-/* Card Container */
+/* Table container */
 .table-wrapper {
     max-width: 900px;
     margin: 0 auto 60px;
-    background: rgba(31,41,55,0.92);
-    border-radius: 14px;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
     overflow: hidden;
+    padding: 20px;
+    backdrop-filter: blur(12px);
 }
 
-/* Table */
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -51,25 +77,28 @@ th, td {
 }
 
 th {
-    background: rgba(17,24,39,0.95);
-    color: #e5e7eb;
+    background: var(--header-bg);
+    color: #fff;
     font-size: 14px;
     text-transform: uppercase;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
 }
 
 tr:nth-child(even) {
-    background: rgba(55,65,81,0.85);
+    background: var(--row-even);
 }
 
 tr:nth-child(odd) {
-    background: rgba(31,41,55,0.85);
+    background: var(--row-odd);
 }
 
 tr:hover {
-    background: rgba(59,130,246,0.25);
+    background-color: var(--accent-hover);
 }
 
-/* Button */
+/* Button styling */
 .action-btn {
     display: inline-block;
     padding: 8px 18px;
@@ -103,7 +132,6 @@ tr:hover {
 }
 </style>
 </head>
-
 <body>
 
 <h2>Welcome, <%= session.getAttribute("username") %></h2>

@@ -1,8 +1,9 @@
 <%@ page import="java.util.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-
 <%
     request.setAttribute("pageContext", "user");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
 
 <jsp:include page="/common/navbar.jsp"/>
@@ -14,30 +15,45 @@
 <title>Quiz Result</title>
 
 <style>
-/* =========================
-   PAGE
-========================= */
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --banner-bg: linear-gradient(135deg, #2563eb, #3b82f6);
+    --correct: rgba(34,197,94,0.18);
+    --wrong: rgba(239,68,68,0.18);
+    --button-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --banner-bg: linear-gradient(135deg, #2563eb, #3b82f6);
+    --correct: rgba(34,197,94,0.25);
+    --wrong: rgba(239,68,68,0.25);
+    --button-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
 body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
 }
 
-/* =========================
-   TITLE
-========================= */
+/* Page title */
 h2 {
     text-align: center;
     margin: 30px 0 10px;
     font-size: 26px;
-    color: #93c5fd;
+    color: #3b82f6;
 }
 
-/* =========================
-   SCORE CARD
-========================= */
+/* Score banner */
 .score-banner {
     max-width: 420px;
     margin: 20px auto 35px;
@@ -45,24 +61,22 @@ h2 {
     text-align: center;
     font-size: 22px;
     font-weight: 700;
-    color: #e5e7eb;
-    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: var(--text);
+    background: var(--banner-bg);
     border-radius: 16px;
     box-shadow: 0 15px 35px rgba(59,130,246,0.45);
 }
 
-/* =========================
-   RESULT TABLE
-========================= */
+/* Result table */
 table {
     width: 95%;
     max-width: 1000px;
     margin: 0 auto 40px;
     border-collapse: collapse;
-    background: rgba(17, 24, 39, 0.95);
+    background: var(--card);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
 }
 
 table th, table td {
@@ -72,8 +86,8 @@ table th, table td {
 }
 
 table th {
-    background: rgba(31, 41, 55, 0.95);
-    color: #93c5fd;
+    background: rgba(59,130,246,0.85);
+    color: #fff;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -85,16 +99,14 @@ table tr {
 
 /* Correct & Wrong rows */
 table tr.correct {
-    background: rgba(34, 197, 94, 0.18);
+    background: var(--correct);
 }
 
 table tr.wrong {
-    background: rgba(239, 68, 68, 0.18);
+    background: var(--wrong);
 }
 
-/* =========================
-   ACTION BUTTONS
-========================= */
+/* Action buttons */
 .actions {
     text-align: center;
     margin-bottom: 50px;
@@ -104,7 +116,7 @@ table tr.wrong {
     display: inline-block;
     margin: 12px 10px;
     padding: 12px 28px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: var(--button-bg);
     color: white;
     border-radius: 999px;
     text-decoration: none;
@@ -119,9 +131,7 @@ table tr.wrong {
     box-shadow: 0 14px 30px rgba(59,130,246,0.65);
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* Responsive */
 @media (max-width: 600px) {
     table th, table td {
         padding: 10px;
@@ -141,7 +151,7 @@ table tr.wrong {
 </style>
 </head>
 
-<body>
+<body data-theme="<%= theme %>">
 
 <h2>Quiz Results</h2>
 

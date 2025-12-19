@@ -2,7 +2,11 @@
 <%
     request.setAttribute("pageContext", "admin");
     request.setAttribute("activeMenu", "question");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
+<body data-theme="<%= theme %>">
+
 <jsp:include page="/common/navbar.jsp"/>
 <jsp:include page="/common/adminSidebar.jsp"/>
 
@@ -12,86 +16,126 @@
 <meta charset="UTF-8">
 <title>Add New Question</title>
 <style>
-  body {
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #d1d5db;
+    --accent: #3b82f6;
+    --accent-hover: rgba(59,130,246,0.15);
+    --placeholder: #6b7280;
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --input-bg: rgba(255,255,255,0.1);
+    --input-border: rgba(255,255,255,0.25);
+    --accent: #3b82f6;
+    --accent-hover: rgba(59,130,246,0.2);
+    --placeholder: #9ca3af;
+}
+
+body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
-  }
+    background: var(--bg);
+    color: var(--text);
+}
 
-  h2.page-title {
+/* Page container */
+main.content {
+    max-width: 600px;
+    margin: 40px auto 60px auto;
+    padding: 0 15px;
+}
+
+/* Page title */
+h2.page-title {
     text-align: center;
     font-size: 28px;
-    color: #3b82f6;
+    color: var(--accent);
     margin-bottom: 30px;
-  }
+}
 
-  main.content {
-    max-width: 600px;
-    margin: 0 auto 50px auto;
-    padding: 0 15px;
-  }
-
-  form {
-    background: rgba(255,255,255,0.08);
+/* Form styling */
+form {
+    background: var(--card);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  }
+    display: flex;
+    flex-direction: column;
+}
 
-  label {
+/* Labels */
+label {
     display: block;
     font-weight: 600;
     margin-top: 15px;
-    color: #e5e7eb;
-  }
+    color: var(--text);
+}
 
-  input[type="text"], textarea {
+/* Inputs, textareas, selects */
+input[type="text"],
+textarea,
+select {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
     border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(255,255,255,0.1);
-    color: #f9fafb;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text);
     font-size: 14px;
     outline: none;
-  }
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
 
-  option {
-      background-color: #1f2933; /* dark background for dropdown items */
-      color: #f9fafb; /* white text */
-  }
+input[type="text"]::placeholder,
+textarea::placeholder,
+select option {
+    color: var(--placeholder);
+}
 
-  select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.1); /* semi-transparent dark-ish background */
-      color: #f9fafb; /* white text */
-      font-size: 14px;
-      outline: none;
-      appearance: none; /* removes default arrow on some browsers */
-  }
+/* Focus styles */
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-hover);
+}
 
-  select::-ms-expand {
-      display: none;
-  }
+/* Selection */
+::selection {
+    background: var(--accent);
+    color: #ffffff;
+}
 
-  textarea {
+input::selection,
+textarea::selection,
+select::selection {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+/* Textarea */
+textarea {
     resize: none;
-  }
+}
 
-  input[type="submit"] {
+/* Submit button */
+input[type="submit"] {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: var(--accent);
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -100,49 +144,51 @@
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(59,130,246,0.5);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+}
 
-  input[type="submit"]:hover {
+input[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(59,130,246,0.7);
-  }
+}
 
-  .message {
+/* Messages */
+.message {
     text-align: center;
     font-weight: bold;
     margin-bottom: 15px;
-  }
+}
 
-  .success { color: #4ade80; }
-  .error { color: #f87171; }
+.success { color: #4ade80; }
+.error { color: #f87171; }
 
-  a.back-link {
+/* Back link */
+a.back-link {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #3b82f6;
+    color: var(--accent);
     text-decoration: none;
     font-weight: 500;
-  }
+}
 
-  a.back-link:hover {
+a.back-link:hover {
     text-decoration: underline;
-  }
+}
 
-  @media (max-width: 600px) {
+/* Responsive */
+@media (max-width: 600px) {
     form {
-      padding: 20px;
+        padding: 20px;
     }
 
     input[type="submit"] {
-      font-size: 15px;
+        font-size: 15px;
     }
-  }
+}
 </style>
 </head>
 
 <body>
-
 <main class="content">
   <h2 class="page-title">Add New Question</h2>
 
@@ -168,19 +214,19 @@
     </select>
 
     <label>Question Text:</label>
-    <textarea name="questionText" rows="3" required></textarea>
+    <textarea name="questionText" rows="3" placeholder="Enter the question..." required></textarea>
 
     <label>Option A:</label>
-    <input type="text" name="optionA" required>
+    <input type="text" name="optionA" placeholder="Option A" required>
 
     <label>Option B:</label>
-    <input type="text" name="optionB" required>
+    <input type="text" name="optionB" placeholder="Option B" required>
 
     <label>Option C:</label>
-    <input type="text" name="optionC" required>
+    <input type="text" name="optionC" placeholder="Option C" required>
 
     <label>Option D:</label>
-    <input type="text" name="optionD" required>
+    <input type="text" name="optionD" placeholder="Option D" required>
 
     <label>Correct Option:</label>
     <select name="correctOption" required>
@@ -198,6 +244,5 @@
     ⬅ Back to Dashboard
   </a>
 </main>
-
 </body>
 </html>

@@ -1,9 +1,12 @@
 <%@ page import="java.util.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-
 <%
     request.setAttribute("pageContext", "user");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
 %>
+
+<body data-theme="<%= theme %>">
 
 <jsp:include page="/common/navbar.jsp"/>
 
@@ -14,53 +17,64 @@
 <title>Attempt Quiz</title>
 
 <style>
-/* =========================
-   PAGE
-========================= */
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --question-bg: #f9fafb;
+    --option-bg: #e5e7eb;
+    --accent-hover: rgba(59,130,246,0.1);
+    --button-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --question-bg: rgba(31,41,55,0.85);
+    --option-bg: rgba(55,65,81,0.85);
+    --accent-hover: rgba(59,130,246,0.3);
+    --button-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
 body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
+    background: var(--bg);
+    color: var(--text);
 }
 
-/* =========================
-   TITLE
-========================= */
+/* Page title */
 h2 {
     text-align: center;
     margin: 30px 0;
     font-size: 26px;
-    color: #93c5fd;
+    color: #3b82f6;
 }
 
-/* =========================
-   QUIZ CARD
-========================= */
+/* Form container */
 form {
     max-width: 900px;
     margin: 0 auto 60px;
-    background: rgba(17, 24, 39, 0.95);
+    background: var(--card);
     padding: 30px 35px;
     border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    backdrop-filter: blur(12px);
 }
 
-/* =========================
-   QUESTION
-========================= */
+/* Question text */
 .question {
     font-size: 17px;
     font-weight: 600;
     margin-bottom: 14px;
     margin-top: 30px;
-    color: #e5e7eb;
+    color: var(--text);
 }
 
-/* =========================
-   OPTIONS
-========================= */
+/* Option styling */
 .option {
     display: flex;
     align-items: center;
@@ -68,30 +82,28 @@ form {
     padding: 12px 14px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(31, 41, 55, 0.85);
+    border: 1px solid rgba(0,0,0,0.1);
+    background: var(--question-bg);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .option:hover {
-    background: rgba(59, 130, 246, 0.25);
-    border-color: #60a5fa;
+    background: var(--accent-hover);
+    border-color: #3b82f6;
 }
 
-/* Hide default radio */
+/* Radio buttons */
 .option input[type="radio"] {
     accent-color: #3b82f6;
     transform: scale(1.15);
 }
 
-/* =========================
-   SUBMIT BUTTON
-========================= */
+/* Submit button */
 input[type="submit"] {
     display: block;
     margin: 40px auto 0;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: var(--button-bg);
     color: white;
     border: none;
     padding: 14px 40px;
@@ -108,9 +120,7 @@ input[type="submit"]:hover {
     box-shadow: 0 12px 25px rgba(59,130,246,0.65);
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* Mobile responsive */
 @media (max-width: 600px) {
     form {
         padding: 22px;

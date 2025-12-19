@@ -3,14 +3,16 @@
 <%
     request.setAttribute("pageContext", "admin");
     request.setAttribute("activeMenu", "question");
+    String theme = (String) session.getAttribute("theme");
+    if (theme == null) theme = "light";
+
+    List<Question> questionList = (List<Question>) request.getAttribute("questionList");
 %>
+
+<body data-theme="<%= theme %>">
 
 <jsp:include page="/common/navbar.jsp"/>
 <jsp:include page="/common/adminSidebar.jsp"/>
-
-<%
-    List<Question> questionList = (List<Question>) request.getAttribute("questionList");
-%>
 
 <!DOCTYPE html>
 <html>
@@ -18,59 +20,87 @@
 <meta charset="UTF-8">
 <title>All Questions</title>
 <style>
+/* Theme variables */
+body[data-theme="light"] {
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --card: #ffffff;
+    --header-bg: #e5e7eb;
+    --row-even: #f9fafb;
+    --row-odd: #ffffff;
+    --accent: #3b82f6;
+    --accent-hover: rgba(59,130,246,0.1);
+}
+
+body[data-theme="dark"] {
+    --bg: #1f2933;
+    --text: #f9fafb;
+    --card: rgba(255,255,255,0.08);
+    --header-bg: rgba(31,41,55,0.9);
+    --row-even: rgba(55,65,81,0.8);
+    --row-odd: rgba(31,41,55,0.8);
+    --accent: #3b82f6;
+    --accent-hover: rgba(59,130,246,0.3);
+}
+
 body {
     margin: 0;
     padding-top: 70px;
     font-family: "Inter", "Segoe UI", sans-serif;
-    background: linear-gradient(135deg, #1f2933, #374151);
-    color: #f9fafb;
+    background: var(--bg);
+    color: var(--text);
 }
 
 /* Heading */
 h2 {
     text-align: center;
-    color: #e5e7eb;
+    color: var(--accent);
     margin-bottom: 30px;
 }
 
-/* Table */
+/* Table container */
 .table-container {
-    max-width: 1000px;
-    margin: 0 auto 50px;
+    max-width: 1300px;
+    margin: 0 auto 60px;
     overflow-x: auto;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(12px);
 }
 
+/* Table styling */
 .question-table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(31, 41, 55, 0.9);
-    border-radius: 10px;
-    overflow: hidden;
-    color: #f9fafb;
 }
 
 .question-table th, .question-table td {
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 12px;
+    padding: 12px 10px;
     text-align: left;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .question-table th {
-    background-color: #1f2933;
-    color: #f9fafb;
+    background: var(--header-bg);
     font-weight: 600;
+    color: var(--text);
+    position: sticky;
+    top: 0;
 }
 
 .question-table tr:nth-child(even) {
-    background-color: rgba(55,65,81,0.8);
+    background: var(--row-even);
 }
 
 .question-table tr:nth-child(odd) {
-    background-color: rgba(31,41,55,0.8);
+    background: var(--row-odd);
 }
 
 .question-table tr:hover {
-    background-color: rgba(59,130,246,0.3);
+    background-color: var(--accent-hover);
+    cursor: default;
 }
 
 /* Pager */
@@ -81,26 +111,38 @@ h2 {
 
 .pager a {
     text-decoration: none;
-    color: #60a5fa;
+    color: var(--accent);
     font-weight: bold;
     margin: 0 12px;
     padding: 6px 14px;
     border-radius: 6px;
-    background-color: rgba(255,255,255,0.1);
+    background-color: var(--card);
     transition: all 0.2s ease;
 }
 
 .pager a:hover {
-    background-color: rgba(96,165,250,0.3);
+    background-color: var(--accent-hover);
 }
 
 .pager span {
-    color: #f87171;
+    color: var(--accent);
     font-weight: bold;
     margin: 0 12px;
     padding: 6px 14px;
     border-radius: 6px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: var(--card);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .question-table th, .question-table td {
+        padding: 8px 6px;
+        font-size: 13px;
+    }
+
+    .table-container {
+        padding: 15px;
+    }
 }
 </style>
 </head>
